@@ -5,39 +5,40 @@ require('../../overload-js');
 function Count(val) {
     var _this = this;
     this.val = val;
-    this.plus = function (operand) {
+    this.__plus = function (leftOperand) {
         console.log("adding Count");
-        _this.val += operand.val;
+        leftOperand.val += _this.val;
+        return this;
     };
 
-    this.doubleEqual = function (operand) {
-        console.log('double Equal Check')
-        return _this.val == operand.val;
+    this.__doubleEqual = function (leftOperand) {
+        console.log('double Equal Check');
+        return _this.val == leftOperand.val;
     };
 
-    this.tripleEqual = function(operand) {
+    this.__tripleEqual = function (leftOperand) {
         console.log('triple Equal Check');
-        return _this.val === operand.val;
+        return _this.val === leftOperand.val;
     };
 }
 
 //We can put in Native types too
-String.prototype.plus = function (o) {
-    return (this + " <added> " + o);
+String.prototype.__plus = function (leftOperand) {
+    return (leftOperand + " <added> " + this);
 };
 
 //Number example
-Number.prototype.plus = function (operand) {
-    console.log('Adding:', this, '+', operand);
-    return this + operand;
+Number.prototype.__plus = function (leftOperand) {
+    console.log('Adding:', leftOperand, '+', this.valueOf());
+    return leftOperand + this;
 };
 
+var v1 = new Count(10);
+var v2 = new Count(20);
+var v3 = new Count(30);
 
-//That's how you do it
-var run = function () {
-    var v1 = new Count(10);
-    var v2 = new Count(20);
-    var v3 = new Count(30);
+//That's how you do it. Ity has its own context scope
+var run = function (v1, v2, v3) {
 
     var res = v1 + v2 + v3;
 
@@ -48,6 +49,16 @@ var run = function () {
     console.log('v3', v3);
     console.log('res', res);
 
+    console.log(v1 == v2);
+    console.log(v1 === v2);
+
+    console.log('hello' + 'yello' + 'fellow' + 'yo!');
+
+    console.log(33 + (3 + 3) + 55);
+
 }.enableOverloading(); //Do this to enable operator overloading in this function. We don't recommend global enablement as that would be confusing.
 
-run();
+//This will be normal operation as defined in JS.
+console.log(3 + 44 + 100);
+
+run(v1, v2, v3);
