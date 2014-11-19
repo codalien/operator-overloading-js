@@ -56,6 +56,45 @@ var run = function (v1, v2, v3) {
 
     console.log(33 + (3 + 3) + 55);
 
+    var t = 33 || 44;
+    t = 33 && 44;
+    t = 33 & 44;
+    t = 33 | 44;
+    t = 33 ^ 44;
+    t = 33 != 44;
+    t = 33 !== 44;
+    t = 33 < 44;
+    t = 33 > 44;
+    t = 33 >= 44;
+    t = 33 <= 44;
+    t = 33 in [44];
+    t = 33 instanceof Number;
+    t = 33 << 44;
+    t = 33 >> 44;
+    t = 33 >>> 44;
+    t = 33 - 44;
+    t = 33 * 44;
+    t = 33 / 44;
+    t = 33 % 44;
+    t = -44;
+    t = +44;
+    t = ~44;
+    t = ++v1;
+    t = --v1;
+    t = !v1;
+    t += v1;
+    t /= !v2;
+    t *= !v2;
+    t -= !v2;
+    t %= !v2;
+    t <<= !v2;
+    t >>= !v2;
+    t >>>= !v2;
+    t &= !v2;
+    t ^= !v2;
+    t |= !v2;
+
+
 }.enableOverloading(); //Do this to enable operator overloading in this function. We don't recommend global enablement as that would be confusing.
 
 //This will be normal operation as defined in JS.

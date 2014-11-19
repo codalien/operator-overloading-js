@@ -1,9 +1,11 @@
 {
   "name": "overload-js",
   "version": "1.0.0",
-  "description": "Sample Operator overloading library for Javascript!",
+  "description": "Simple Operator overloading library for Javascript!",
   "main": "./lib/overload.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "browserify": "^6.3.2"
+  },
   "scripts": {
     "test": "mocha ./test"
   },
