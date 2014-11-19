@@ -1,0 +1,23 @@
+{
+  "name": "overload-js",
+  "version": "1.0.0",
+  "homepage": "https://github.com/kushal-likhi/overload-js",
+  "authors": [
+    "Kushal Likhi <kushal@intelligrape.com>"
+  ],
+  "description": "A simple Operator overloading library for javascript",
+  "main": "./browser/dist/overload-js.min.js",
+  "keywords": [
+    "overload",
+    "operator",
+    "overloading"
+  ],
+  "license": "ISC",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

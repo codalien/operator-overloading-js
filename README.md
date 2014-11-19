@@ -89,6 +89,10 @@ Number.prototype.__plus = function (operand) {
 
 //That's how you do it
 var run = function () {
+        var v1 = new Count(10);
+        var v2 = new Count(20);
+        var v3 = new Count(30);
+
         var res = v1 + v2 + v3;
 
         console.log(3 + 44 + 100);
