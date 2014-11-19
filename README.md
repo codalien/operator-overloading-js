@@ -2,6 +2,53 @@
 
 This library enables simple operator overloading in Javascript code. This library has minimal runtime overheads, all overheads are done on loading time which is fair as that is done only when the system loads. Runtime performance is what is aimed for.
 
+##Overloadable Operators##
+Following are the operators which can be overloaded with the desired overload function name:
+```javascript
+{
+    '+': '__plus',
+    '==': '__doubleEqual',
+    '===': '__tripleEqual',
+    '||': '__logicalOR',
+    '&&': '__logicalAND',
+    '|': '__bitwiseOR',
+    '^': '__bitwiseXOR',
+    '&': '__bitwiseAND',
+    '!=': '__notEqual',
+    '!==': '__notDoubleEqual',
+    '<': '__lessThan',
+    '>': '__greaterThan',
+    '<=': '__lessThanEqual',
+    '>=': '__greaterThanEqual',
+    'in': '__in',
+    'instanceof': '__instanceOf',
+    '<<': '__bitwiseLSHIFT',
+    '>>': '__bitwiseRSHIFT',
+    '>>>': '__zeroFillRSHIFT',
+    '-': '__minus',
+    '*': '__multiply',
+    '%': '__modulus',
+    '/': '__divide',
+    'u-': '__unaryNegation',
+    'u+': '__unaryAddition',
+    '~': '__bitwiseNOT',
+    '++': '__increment',
+    '--': '__decrement',
+    '!': '__unaryNOT',
+    '+=': '__addAssign',
+    '-=': '__minusAssign',
+    '*=': '__multiplyAssign',
+    '/=': '__divideAssign',
+    '%=': '__modulusAssign',
+    '<<=': '__leftShiftAssign',
+    '>>=': '__rightShiftAssign',
+    '>>>=': '__zeroFillRightShiftAssign',
+    '&=': '__andAssign',
+    '|=': '__orAssign',
+    '^=': '__xorAssign'
+}
+```
+
 **Example**
 ```javascript
 
