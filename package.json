@@ -4,7 +4,12 @@
   "description": "Simple Operator overloading library for Javascript!",
   "main": "./lib/overload.js",
   "devDependencies": {
-    "browserify": "^6.3.2"
+    "gulp": "^3.8.10",
+    "gulp-browserify": "^0.5.0",
+    "gulp-clean": "^0.3.1",
+    "gulp-rename": "^1.2.0",
+    "gulp-uglify": "^1.0.1",
+    "require-dir": "^0.1.0"
   },
   "scripts": {
     "test": "mocha ./test"

@@ -6,7 +6,7 @@
     "Kushal Likhi <kushal@intelligrape.com>"
   ],
   "description": "A simple Operator overloading library for javascript",
-  "main": "./browser/dist/overload-js.min.js",
+  "main": "./dist/browser/overload.min.js",
   "keywords": [
     "overload",
     "operator",
