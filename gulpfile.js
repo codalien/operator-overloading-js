@@ -4,4 +4,6 @@ var gulp = require('gulp');
 
 require('require-dir')('./gulp');
 
-gulp.task('default', ['build']);
+gulp.task('default', ['lint'], function () {
+    gulp.start('build');
+});

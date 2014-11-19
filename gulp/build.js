@@ -4,7 +4,8 @@ var gulp = require('gulp'),
     clean = require('gulp-clean'),
     browserify = require('gulp-browserify'),
     uglify = require('gulp-uglify'),
-    rename = require("gulp-rename");
+    rename = require('gulp-rename'),
+    size = require('gulp-size');
 
 
 gulp.task('compress', function () {
@@ -15,12 +16,14 @@ gulp.task('compress', function () {
                 comments: true
             }
         }))
-        .pipe(gulp.dest('dist/browser'));
+        .pipe(gulp.dest('dist/browser'))
+        .pipe(size());
 });
 
 gulp.task('clean-browser', function () {
     return gulp.src('dist/browser', {read: false})
-        .pipe(clean());
+        .pipe(clean())
+        .pipe(size());
 });
 
 gulp.task('browserify', function () {
@@ -29,7 +32,8 @@ gulp.task('browserify', function () {
             insertGlobals: true
         }))
         .pipe(rename('overload.js'))
-        .pipe(gulp.dest('./dist/browser/'));
+        .pipe(gulp.dest('./dist/browser/'))
+        .pipe(size());
 });
 
 gulp.task('build', ['clean-browser', 'browserify', 'compress']);

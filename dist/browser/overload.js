@@ -1,5 +1,7 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+'use strict';
+
 var esprima = require('esprima');
 var escodegen = require('escodegen');
 
@@ -59,17 +61,17 @@ function visit(statement, index, program) {
             if (statement.operator && funcNames[statement.operator]) {
                 statement.type = 'CallExpression';
                 statement.callee = {
-                    "type": "MemberExpression",
-                    "computed": false,
-                    "object": statement.right,
-                    "property": {
-                        "type": "Identifier",
-                        "name": funcNames[statement.operator]
+                    'type': 'MemberExpression',
+                    'computed': false,
+                    'object': statement.right,
+                    'property': {
+                        'type': 'Identifier',
+                        'name': funcNames[statement.operator]
                     }
                 };
                 visit(statement.left, index, program);
                 visit(statement.right, index, program);
-                statement.arguments = [statement.left];
+                statement['arguments'] = [statement.left];
             } else {
                 visit(statement.left, index, program);
                 visit(statement.right, index, program);
@@ -79,7 +81,7 @@ function visit(statement, index, program) {
             visit(statement.expression, index, program);
             break;
         case 'CallExpression':
-            statement.arguments.forEach(function (argument, idx) {
+            statement['arguments'].forEach(function (argument, idx) {
                 visit(argument, idx, program);
             });
             break;
@@ -87,10 +89,10 @@ function visit(statement, index, program) {
             if (statement.operator && funcNames[statement.operator]) {
                 var rightOld = statement.right;
                 statement.right = {
-                    "type": "BinaryExpression",
-                    "operator": statement.operator.replace(/=/, '').trim(),
-                    "left": statement.left,
-                    "right": rightOld
+                    'type': 'BinaryExpression',
+                    'operator': statement.operator.replace(/=/, '').trim(),
+                    'left': statement.left,
+                    'right': rightOld
                 };
                 statement.operator = '=';
                 visit(statement.left, index, program);
@@ -103,16 +105,16 @@ function visit(statement, index, program) {
             if (statement.operator && funcNames[statement.operator]) {
                 statement.type = 'CallExpression';
                 statement.callee = {
-                    "type": "MemberExpression",
-                    "computed": false,
-                    "object": statement.argument,
-                    "property": {
-                        "type": "Identifier",
-                        "name": (statement.operator == '+' || statement.operator == '-') ? funcNames['u' + statement.operator] : funcNames[statement.operator]
+                    'type': 'MemberExpression',
+                    'computed': false,
+                    'object': statement.argument,
+                    'property': {
+                        'type': 'Identifier',
+                        'name': (statement.operator === '+' || statement.operator === '-') ? funcNames['u' + statement.operator] : funcNames[statement.operator]
                     }
                 };
                 visit(statement.argument, index, program);
-                statement.arguments = [];
+                statement['arguments'] = [];
             } else {
                 visit(statement.argument, index, program);
             }
@@ -121,16 +123,16 @@ function visit(statement, index, program) {
             if (statement.operator && funcNames[statement.operator]) {
                 statement.type = 'CallExpression';
                 statement.callee = {
-                    "type": "MemberExpression",
-                    "computed": false,
-                    "object": statement.argument,
-                    "property": {
-                        "type": "Identifier",
-                        "name": funcNames[statement.operator]
+                    'type': 'MemberExpression',
+                    'computed': false,
+                    'object': statement.argument,
+                    'property': {
+                        'type': 'Identifier',
+                        'name': funcNames[statement.operator]
                     }
                 };
                 visit(statement.argument, index, program);
-                statement.arguments = [];
+                statement['arguments'] = [];
             }
             break;
         //We don't ned to transform following nodes! Phew!
@@ -151,7 +153,7 @@ Function.prototype.enableOverloading = function () {
     if (!ast) throw new Error('Invalid code block! Cannot overload. AST Generation Error.');
 
     //Fetch arguments
-    var arguments = ast.body[0].declarations[0].init.params.reduce(function (init, val) {
+    var args = ast.body[0].declarations[0].init.params.reduce(function (init, val) {
         init.push(val.name);
         return init;
     }, []);
@@ -161,8 +163,8 @@ Function.prototype.enableOverloading = function () {
 
     //Build the desired program
     var program = {
-        "type": "Program",
-        "body": body.body
+        'type': 'Program',
+        'body': body.body
     };
 
     //Transform
@@ -171,7 +173,7 @@ Function.prototype.enableOverloading = function () {
     });
 
     //Build new function args
-    arguments.push(escodegen.generate(program, {
+    args.push(escodegen.generate(program, {
         comment: true,
         format: {
             indent: {
@@ -179,12 +181,13 @@ Function.prototype.enableOverloading = function () {
             }
         }
     }));
-    var retFn = Function.apply(this, arguments);
+    var retFn = Function.apply(this, args);
     console.log(JSON.stringify(program, null, 4));
     console.log(retFn.toString());
     return retFn;
 };
 
+/* jshint ignore:start */
 function defineDefaultProp(constructor, name, val) {
     Object.defineProperty(constructor.prototype, name, {
         enumerable: false,
@@ -198,131 +201,132 @@ function defineDefaultProp(constructor, name, val) {
 var cons = [Object, Number, String, Function, RegExp];
 cons.forEach(function (constructor) {
     defineDefaultProp(constructor, funcNames['+'], function (o) {
-        return o + this
+        return o + this;
     });
     defineDefaultProp(constructor, funcNames['=='], function (o) {
-        return o == this
+        return o == this;
     });
     defineDefaultProp(constructor, funcNames['==='], function (o) {
-        return o === this
+        return o === this;
     });
     defineDefaultProp(constructor, funcNames['||'], function (o) {
-        return o || this
+        return o || this;
     });
     defineDefaultProp(constructor, funcNames['&&'], function (o) {
-        return o && this
+        return o && this;
     });
     defineDefaultProp(constructor, funcNames['&'], function (o) {
-        return o & this
+        return o & this;
     });
     defineDefaultProp(constructor, funcNames['|'], function (o) {
-        return o | this
+        return o | this;
     });
     defineDefaultProp(constructor, funcNames['^'], function (o) {
-        return o ^ this
+        return o ^ this;
     });
     defineDefaultProp(constructor, funcNames['!='], function (o) {
-        return o != this
+        return o != this;
     });
     defineDefaultProp(constructor, funcNames['!=='], function (o) {
-        return o !== this
+        return o !== this;
     });
     defineDefaultProp(constructor, funcNames['<'], function (o) {
-        return o < this
+        return o < this;
     });
     defineDefaultProp(constructor, funcNames['>'], function (o) {
-        return o > this
+        return o > this;
     });
     defineDefaultProp(constructor, funcNames['>>'], function (o) {
-        return o >> this
+        return o >> this;
     });
     defineDefaultProp(constructor, funcNames['<<'], function (o) {
-        return o << this
+        return o << this;
     });
     defineDefaultProp(constructor, funcNames['>>>'], function (o) {
-        return o >>> this
+        return o >>> this;
     });
     defineDefaultProp(constructor, funcNames['<='], function (o) {
-        return o <= this
+        return o <= this;
     });
     defineDefaultProp(constructor, funcNames['>='], function (o) {
-        return o >= this
+        return o >= this;
     });
     defineDefaultProp(constructor, funcNames['in'], function (o) {
-        return o in this
+        return o in this;
     });
     defineDefaultProp(constructor, funcNames['instanceof'], function (o) {
-        return o instanceof this
+        return o instanceof this;
     });
     defineDefaultProp(constructor, funcNames['-'], function (o) {
-        return o - this
+        return o - this;
     });
     defineDefaultProp(constructor, funcNames['*'], function (o) {
-        return o * this
+        return o * this;
     });
     defineDefaultProp(constructor, funcNames['%'], function (o) {
-        return o % this
+        return o % this;
     });
     defineDefaultProp(constructor, funcNames['/'], function (o) {
-        return o / this
+        return o / this;
     });
-    defineDefaultProp(constructor, funcNames['u-'], function (o) {
-        return -this
+    defineDefaultProp(constructor, funcNames['u-'], function () {
+        return -this;
     });
-    defineDefaultProp(constructor, funcNames['u+'], function (o) {
-        return +this
+    defineDefaultProp(constructor, funcNames['u+'], function () {
+        return +this;
     });
-    defineDefaultProp(constructor, funcNames['~'], function (o) {
-        return ~this
+    defineDefaultProp(constructor, funcNames['~'], function () {
+        return ~this;
     });
-    defineDefaultProp(constructor, funcNames['++'], function (o) {
+    defineDefaultProp(constructor, funcNames['++'], function () {
         var val = this;
         ++val;
         return val;
     });
-    defineDefaultProp(constructor, funcNames['--'], function (o) {
+    defineDefaultProp(constructor, funcNames['--'], function () {
         var val = this;
         --val;
         return val;
     });
-    defineDefaultProp(constructor, funcNames['!'], function (o) {
-        return !this
+    defineDefaultProp(constructor, funcNames['!'], function () {
+        return !this;
     });
     defineDefaultProp(constructor, funcNames['+='], function (o) {
-        return o += this
+        return o += this;
     });
     defineDefaultProp(constructor, funcNames['-='], function (o) {
-        return o -= this
+        return o -= this;
     });
     defineDefaultProp(constructor, funcNames['*='], function (o) {
-        return o *= this
+        return o *= this;
     });
     defineDefaultProp(constructor, funcNames['/='], function (o) {
-        return o /= this
+        return o /= this;
     });
     defineDefaultProp(constructor, funcNames['%='], function (o) {
-        return o %= this
+        return o %= this;
     });
     defineDefaultProp(constructor, funcNames['<<='], function (o) {
-        return o <<= this
+        return o <<= this;
     });
     defineDefaultProp(constructor, funcNames['>>='], function (o) {
-        return o >>= this
+        return o >>= this;
     });
     defineDefaultProp(constructor, funcNames['>>>='], function (o) {
-        return o >>>= this
+        return o >>>= this;
     });
     defineDefaultProp(constructor, funcNames['&='], function (o) {
-        return o &= this
+        return o &= this;
     });
     defineDefaultProp(constructor, funcNames['|='], function (o) {
-        return o |= this
+        return o |= this;
     });
     defineDefaultProp(constructor, funcNames['^='], function (o) {
-        return o ^= this
+        return o ^= this;
     });
 });
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_a10cbb7e.js","/")
+/* jshint ignore:end */
+}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_f4a727e3.js","/")
 },{"1YiZ5S":24,"buffer":20,"escodegen":2,"esprima":19}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /*
