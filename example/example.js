@@ -37,7 +37,7 @@ var v1 = new Count(10);
 var v2 = new Count(20);
 var v3 = new Count(30);
 
-//That's how you do it. Ity has its own context scope
+//That's how you do it. It has its own context scope
 var run = function (v1, v2, v3) {
 
     var res = v1 + v2 + v3;
