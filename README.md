@@ -1,55 +1,112 @@
-*Oveload-JS*
+#Oveload-JS#
 
-This library enables simple operator overloading in Javascript code. This library has minimal runtime overheads, all overheads are done on loading time which is fair as that is done only when the system loads. Runtime performance is what is aimed for.
+This library enables simple **operator overloading** in Javascript code.
+This library has minimal runtime overheads, all overheads are done on loading time which is fair as that is done only when the system loads. Runtime performance is what is aimed for.
+
+##Imstallation##
+This library is available for **Node** and **Browser** both. See the installation steps below:
+
+###Node Module (NPM)##
+```bash
+npm install operator-overloading --save
+```
+
+###Browser (Bower)###
+```bash
+bower install operator-overloading --save
+```
+
+##Sneak Peak Example##
+Here is a quick sneak peak of the usage:
+```javascript
+require('operator-overloading');
+(function () {
+    //A simple student constructor
+    function Student(name, marks) {
+        var _this = this;
+        this.name = name;
+        this.marks = marks;
+        //THIS is WHERE we OVERLOAD '+' Operator
+        this.__plus = function (leftOperand) {
+            return new Student([leftOperand.name, _this.name].join('+'), leftOperand.marks + _this.marks);
+        };
+        this.toString = function () {
+            return _this.name + ':' + _this.marks;
+        };
+    }
+
+    //Define some students
+    var kushal = new Student('Kushal', 66),
+        kashish = new Student('Kashish', 90),
+        vibhor = new Student('Vibhor', 80);
+
+    //See the overload magic
+    var group1 = kushal + kashish,
+        group2 = kushal + kashish + vibhor,
+        group3 = kushal + vibhor;
+
+    //Lets print
+    console.log(group1.toString()); //Output: Kushal+Kashish:156
+    console.log(group2.toString()); //Output: Kushal+Kashish+Vibhor:236
+    console.log(group3.toString()); //Output: Kushal+Vibhor:146
+
+}.enableOverloading()/*Here you are enabling overloading for this context only*/)();
+
+```
 
 ##Overloadable Operators##
 Following are the operators which can be overloaded with the desired overload function name:
-```javascript
-{
-    '+': '__plus',
-    '==': '__doubleEqual',
-    '===': '__tripleEqual',
-    '||': '__logicalOR',
-    '&&': '__logicalAND',
-    '|': '__bitwiseOR',
-    '^': '__bitwiseXOR',
-    '&': '__bitwiseAND',
-    '!=': '__notEqual',
-    '!==': '__notDoubleEqual',
-    '<': '__lessThan',
-    '>': '__greaterThan',
-    '<=': '__lessThanEqual',
-    '>=': '__greaterThanEqual',
-    'in': '__in',
-    'instanceof': '__instanceOf',
-    '<<': '__bitwiseLSHIFT',
-    '>>': '__bitwiseRSHIFT',
-    '>>>': '__zeroFillRSHIFT',
-    '-': '__minus',
-    '*': '__multiply',
-    '%': '__modulus',
-    '/': '__divide',
-    'u-': '__unaryNegation',
-    'u+': '__unaryAddition',
-    '~': '__bitwiseNOT',
-    '++': '__increment',
-    '--': '__decrement',
-    '!': '__unaryNOT',
-    '+=': '__addAssign',
-    '-=': '__minusAssign',
-    '*=': '__multiplyAssign',
-    '/=': '__divideAssign',
-    '%=': '__modulusAssign',
-    '<<=': '__leftShiftAssign',
-    '>>=': '__rightShiftAssign',
-    '>>>=': '__zeroFillRightShiftAssign',
-    '&=': '__andAssign',
-    '|=': '__orAssign',
-    '^=': '__xorAssign'
-}
-```
 
-**Example**
+
+| S.No | Operator | Function Name | Operator Type |
+|------|----------|---------------|---------------|
+| 1 | + | __plus | Binary |
+| 2 | == | __doubleEqual | Binary |
+| 3 | === | __tripleEqual | Binary |
+| 4 | || | __logicalOR | Binary |
+| 5 | && | __logicalAND | Binary |
+| 6 | | | __bitwiseOR | Binary |
+| 7 | ^ | __bitwiseXOR | Binary |
+| 8 | & | __bitwiseAND | Binary |
+| 9 | != | __notEqual | Binary |
+| 10 | !== | __notDoubleEqual | Binary |
+| 11 | < | __lessThan | Binary |
+| 12 | > | __greaterThan | Binary |
+| 13 | <= | __lessThanEqual | Binary |
+| 14 | >= | __greaterThanEqual | Binary |
+| 15 | in | __in | Binary |
+| 16 | instanceof | __instanceOf | Binary |
+| 17 | << | __bitwiseLSHIFT | Binary |
+| 18 | >> | __bitwiseRSHIFT | Binary |
+| 19 | >>> | __zeroFillRSHIFT | Binary |
+| 20 | - | __minus | Binary |
+| 21 | * | __multiply | Binary |
+| 22 | % | __modulus | Binary |
+| 23 | / | __divide | Binary |
+| 24 | u- | __unaryNegation | Unary |
+| 25 | u+ | __unaryAddition | Unary |
+| 26 | ~ | __bitwiseNOT | Unary |
+| 27 | ++ | __increment | Unary |
+| 28 | -- | __decrement | Unary |
+| 29 | ! | __unaryNOT | Unary |
+| 30 | += | __addAssign | Assignment |
+| 31 | -= | __minusAssign | Assignment |
+| 32 | *= | __multiplyAssign | Assignment |
+| 33 | /= | __divideAssign | Assignment |
+| 34 | %= | __modulusAssign | Assignment |
+| 35 | <<= | __leftShiftAssign | Assignment |
+| 36 | >>= | __rightShiftAssign | Assignment |
+| 37 | >>>= | __zeroFillRightShiftAssign | Assignment |
+| 38 | &= | __andAssign | Assignment |
+| 39 | |= | __orAssign | Assignment |
+| 40 | ^= | __xorAssign | Assignment |
+
+
+##Design Consideration / Very IMP / Must Read##
+coming up...
+
+
+##Examples / Usage Guide##
 ```javascript
 
 require('../../overload-js');

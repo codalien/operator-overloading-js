@@ -1,56 +1,6 @@
+'use strict';
+
 require('../lib/overload');
-
-
-Function.prototype.__bitwiseRSHIFT = function (leftOperand) {
-    return leftOperand(this);
-};
-
-function fetchData1(callback) {
-    console.log('calling 1');
-    setTimeout(function () {
-        callback();
-    }, 1000)
-}
-
-function fetchData2(callback) {
-    console.log('calling 2');
-    setTimeout(function () {
-        callback();
-    }, 1000)
-}
-
-function fetchData3(callback) {
-    console.log('calling 3');
-    setTimeout(function () {
-        callback();
-    }, 1000)
-}
-
-function callback() {
-    console.log('finalCallback!');
-}
-
-/*
-(function (ka, ku, d, r, v) {
-//    var resp = fetchData1 >> callback*/
-/* >> fetchData3 >> callback*//*
-;
-
-    console.log(ka + ku + v);
-    console.log(ka + ku + v + r);
-    console.log(ka + ku + v + r + d);
-    console.log(r + d);
-    console.log(r + d + ka);
-
-}.enableOverloading())(
-        new Student('Kashish', 60),
-        new Student('Kushal', 33),
-        new Student('Dheeraj', 90),
-        new Student('Rishabh', 25),
-        new Student('Vibhor', 80)
-    );
-*/
-
 
 (function () {
     //A simple student constructor

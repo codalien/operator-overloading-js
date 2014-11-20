@@ -10,7 +10,7 @@ describe('Operator overloading Test Suite', function () {
         };
 
         //Require the overload js.
-        var functionNames = require('../../overload-js').functionNames;
+        var functionNames = require('../lib/overload').functionNames;
 
         Object.keys(functionNames).forEach(function (operator) {
             Number.prototype[functionNames[operator]] = function (lval) {

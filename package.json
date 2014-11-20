@@ -1,5 +1,5 @@
 {
-  "name": "overload-js",
+  "name": "operator-overloading",
   "version": "1.0.0",
   "description": "Simple Operator overloading library for Javascript!",
   "main": "./lib/overload.js",
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:kushal-likhi/overload-js.git"
+    "url": "git@github.com:kushal-likhi/operator-overloading-js.git"
   },
   "keywords": [
     "javascript",
@@ -31,9 +31,9 @@
   "author": "Kushal Likhi <kushal.likhi@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kushal-likhi/overload-js/issues"
+    "url": "https://github.com/kushal-likhi/operator-overloading-js/issues"
   },
-  "homepage": "https://github.com/kushal-likhi/overload-js",
+  "homepage": "https://github.com/kushal-likhi/operator-overloading-js",
   "dependencies": {
     "escodegen": "^1.4.1",
     "esprima": "^1.2.2"

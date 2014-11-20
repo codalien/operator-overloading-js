@@ -1,4 +1,4 @@
-require('../../overload-js');
+require('../lib/overload');
 
 
 //An example Constructor Class
