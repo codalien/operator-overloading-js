@@ -152,13 +152,42 @@ add.enableOverloading()(2, 2);
 add(2, 2); //Original method will be untouched always.
 ```
 
-##Understanding restricted scope inheritance##
+###Understanding restricted scope inheritance###
 It is very important that we don,t write code which could mess up natural way of happings and make things harder for debug. Hence the functions we mark with enabled operator-overloading have completely different running contexts.
 Those functions can't use variables defined outside the overloaded function such that we don't accidently do stuff to the code which is intended to be executed in the natural way.
 
 **Example**
 ```javascript
+var a = 222;
+
+//But if we have anything in global(node)/window(browser) scope that is accessible
+global.b = 333;
+
+console.log(a); //Output: 222
+console.log(b); //Output: 333
+
+//Now this function has its own isolated execution context/scope.
+(function(){
+    //You can't access the objects outside the function even in lexical scope.
+    console.log(a); //Output: ERROR: a is undefined
+
+    //But you can access global/window scope
+    console.log(b); //Output: 333
+}.enableOverloading())();
 ```
+
+**Example: If you need to access some objects, you can do:**
+```javascript
+var a = 222;
+
+console.log(a); //Output: 222
+
+//Now this function has its own isolated execution context/scope.
+(function(a){
+    console.log(a); //Output: 222
+}.enableOverloading())(a); //Pass them as arguments ;)
+```
+
 
 ##Examples / Usage Guide##
 ```javascript
