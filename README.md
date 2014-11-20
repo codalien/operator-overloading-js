@@ -1,3 +1,21 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [Operator-Overloading-JS](#operator-overloading-js)
+  - [Installation](#installation)
+    - [Node Module (NPM)](#node-module-npm)
+    - [Browser (Bower)](#browser-bower)
+  - [Sneak Peak Example](#sneak-peak-example)
+  - [Overloadable Operators](#overloadable-operators)
+  - [Design Consideration / Very IMP / Must Read](#design-consideration--very-imp--must-read)
+    - [Definig the context for using operator-overloading](#definig-the-context-for-using-operator-overloading)
+    - [Understanding restricted scope inheritance](#understanding-restricted-scope-inheritance)
+  - [Examples / Usage Guide](#examples--usage-guide)
+  - [Revision History](#revision-history)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 #Operator-Overloading-JS#
 
 This library enables simple **operator overloading** in Javascript code.
@@ -255,3 +273,9 @@ run();
 
 
 ```
+
+##Revision History##
+* **Version 0.1**: The first poc release overloading only +-*/ operators.
+* **Version 0.2**: Added support for all binary operators and unary operators.
+* **Version 0.3**: Updated AST Traversal to enable inline inner functions.
+* **Version 0.4**: Added support for assignment operators.
