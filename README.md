@@ -1,6 +1,4 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+**Table of Contents**
 
 - [Operator-Overloading-JS](#operator-overloading-js)
   - [Installation](#installation)
@@ -13,8 +11,6 @@
     - [Understanding restricted scope inheritance](#understanding-restricted-scope-inheritance)
   - [Examples / Usage Guide](#examples--usage-guide)
   - [Revision History](#revision-history)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 #Operator-Overloading-JS#
 
