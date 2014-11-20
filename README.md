@@ -1,9 +1,9 @@
-#Oveload-JS#
+#Operator-Overloading-JS#
 
 This library enables simple **operator overloading** in Javascript code.
 This library has minimal runtime overheads, all overheads are done on loading time which is fair as that is done only when the system loads. Runtime performance is what is aimed for.
 
-##Imstallation##
+##Installation##
 This library is available for **Node** and **Browser** both. See the installation steps below:
 
 ###Node Module (NPM)##
