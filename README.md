@@ -9,13 +9,25 @@
   - [Design Consideration / Very IMP / Must Read](#design-consideration--very-imp--must-read)
     - [Definig the context for using operator-overloading](#definig-the-context-for-using-operator-overloading)
     - [Understanding restricted scope inheritance](#understanding-restricted-scope-inheritance)
-  - [Examples / Usage Guide](#examples--usage-guide)
+  - [Usage Guide](#usage-guide)
+    - [Overloading binary/assignment operators](#overloading-binaryassignment-operators)
+    - [Overloading unary operators](#overloading-unary-operators)
+    - [Using the overloaded operators](#using-the-overloaded-operators)
+  - [Examples](#examples)
+    - [Simple Student Constructor](#simple-student-constructor)
+    - [Function Callback Fun](#function-callback-fun)
+    - [Instanceof for Serialized objects](#instanceof-for-serialized-objects)
+    - [Playground](#playground)
+  - [Dev Tips](#dev-tips)
   - [Revision History](#revision-history)
+
 
 #Operator-Overloading-JS#
 
 This library enables simple **operator overloading** in Javascript code.
 This library has minimal runtime overheads, all overheads are done on loading time which is fair as that is done only when the system loads. Runtime performance is what is aimed for.
+We do **AST Transformations** during definition/load time to achieve the desired objective.
+
 
 ##Installation##
 This library is available for **Node** and **Browser** both. See the installation steps below:
@@ -203,72 +215,368 @@ console.log(a); //Output: 222
 ```
 
 
-##Examples / Usage Guide##
-```javascript
+##Usage Guide##
 
-require('../../overload-js');
+There are two steps required to use operator overloading:
+1. Define overloading methods for operators intended to overload.
+2. Use them in a special context.
+
+Objects should have desired methods for the operators to overload. The method you should override can be chosen from [Overloadable Operators](#overloadable-operators). For different operators its explained as follows:
+
+###Overloading binary/assignment operators###
+For binary operators syntax is as follows:
+
+**NOTE:** In the overloading functions `this` is the *RightValue(rval)* and `argument (leftValue)` is the *LeftValue(lval)*. Ex: in `2 + 3`, `lval = 2` and `rval = 3`.
+
+```javascript
+<AnyConstructor>.prototype.__plus = function(leftValue){
+    //Do magic...here
+    //...
+    //...
+    return <whateverYouWantToDoAndReturnAsResult>;
+};
+```
+**OR**
+```javascript
+<AnyObject>.__plus = function(leftValue){
+    //Do magic...here
+    //...
+    //...
+    return <whateverYouWantToDoAndReturnAsResult>;
+};
+```
+**OR**
+```javascript
+function MyClass(){
+    this.__plus = function(leftValue){
+        //Do magic...here
+        //...
+        //...
+        return <whateverYouWantToDoAndReturnAsResult>;
+    };
+};
+```
+
+**EXAMPLE**:
+```javascript
+Number.prototype.__plus = function(leftValue){
+    var rightValue = this;
+    console.log('Adding:', leftValue, '+', rightValue);
+    return leftValue + rightValue;
+};
+
+console.log(22 + 33); //Output: 55
+
+(function(){
+    console.log(22 + 33); //Output: Adding: 22 + 33 \n 55
+}.enableOverloading())();
+
+```
+
+###Overloading unary operators###
+There is no argument passed in these functions as there is no other operand. the operand the unary operator is applied is available in `this` object.
+
+```javascript
+<AnyConstructor>.prototype.__increment = function(){
+    var operand = this;
+    //Do magic...here
+    //...
+    //...
+    return <whateverYouWantToDoAndReturnAsResult>;
+};
+```
+**OR**
+```javascript
+<AnyObject>.__increment = function(){
+    var operand = this;
+    //Do magic...here
+    //...
+    //...
+    return <whateverYouWantToDoAndReturnAsResult>;
+};
+```
+**OR**
+```javascript
+function MyClass(){
+    this.__increment = function(){
+        var operand = this;
+        //Do magic...here
+        //...
+        //...
+        return <whateverYouWantToDoAndReturnAsResult>;
+    };
+};
+```
+
+###Using the overloaded operators###
+
+Whatever function is transformed via `.enableOverloading()` is eligible for operator overloading.
+
+```javascript
+var a = 222;
+
+console.log(a); //Output: 222
+
+//Now this function has its own isolated execution context/scope.
+(function(a){
+    console.log(a); //Output: 222
+}.enableOverloading())(a); //Pass them as arguments ;)
+```
+
+
+##Examples##
+Some examples:
+
+###Simple Student Constructor###
+The same example we have shown above.
+```javascript
+require('operator-overloading');
+(function () {
+    //A simple student constructor
+    function Student(name, marks) {
+        var _this = this;
+        this.name = name;
+        this.marks = marks;
+        //THIS is WHERE we OVERLOAD '+' Operator
+        this.__plus = function (leftOperand) {
+            return new Student([leftOperand.name, _this.name].join('+'), leftOperand.marks + _this.marks);
+        };
+        this.toString = function () {
+            return _this.name + ':' + _this.marks;
+        };
+    }
+
+    //Define some students
+    var kushal = new Student('Kushal', 66),
+        kashish = new Student('Kashish', 90),
+        vibhor = new Student('Vibhor', 80);
+
+    //See the overload magic
+    var group1 = kushal + kashish,
+        group2 = kushal + kashish + vibhor,
+        group3 = kushal + vibhor;
+
+    //Lets print
+    console.log(group1.toString()); //Output: Kushal+Kashish:156
+    console.log(group2.toString()); //Output: Kushal+Kashish+Vibhor:236
+    console.log(group3.toString()); //Output: Kushal+Vibhor:146
+
+}.enableOverloading()/*Here you are enabling overloading for this function scope only*/)();
+
+```
+
+
+###Function Callback Fun###
+Just a **fun** way to pass callbacks. Just a demonstration experiment.
+
+```javascript
+require('operator-overloading');
+
+//Specify behavior for '>>'
+Function.prototype.__bitwiseRSHIFT = function (leftOperand) {
+    return leftOperand(this);
+};
+
+//Fun time
+(function () {
+
+    function callback(data) {
+        console.log('final Callback!', data);
+    }
+
+    function fetchData(callback) {
+        console.log('calling 1');
+        setTimeout(function () {
+            callback('Operator overloading is FUN!');
+        }, 1000)
+    }
+
+    //FUN Part here!! This line is equal to fetchData(callback);
+    fetchData >> callback;
+
+}.enableOverloading())();
+```
+
+###Instanceof for Serialized objects###
+Check if serialised object is instance of a particular constructor.
+
+```javascript
+require('operator-overloading');
+
+function User(name, age, dob, email) {
+    var self = this;
+    this.type = this.constructor.name;
+    this.name = name;
+    this.age = age;
+    this.dob = dob;
+    this.email = email;
+    this.serialize = function () {
+        return JSON.stringify(self);
+    };
+    //Overload. We are overloading User also as operation will also be performed on User constructor as an operand.
+    this.__instanceOf = User.__instanceOf = function (obj) {
+        if (obj instanceof String || typeof obj === 'string') obj = JSON.parse(obj); //compatibility for serialized JSON too.
+        return (obj.type === 'User');
+    };
+}
+
+function Issue(user, title, description) {
+    var self = this;
+    this.type = this.constructor.name;
+    this.user = user;
+    this.title = title;
+    this.description = description;
+    this.serialize = function () {
+        return JSON.stringify(self);
+    };
+    //Overload. We are overloading User also as operation will also be performed on User constructor as an operand.
+    this.__instanceOf = Issue.__instanceOf = function (obj) {
+        if (obj instanceof String || typeof obj === 'string') obj = JSON.parse(obj); //compatibility for serialized JSON too.
+        return (obj.type == 'Issue');
+    };
+}
+
+var user1 = new User('Kushal', 22, new Date(), 'email@domain.com');
+var issue1 = new Issue(user1, 'Life is not fun!', 'Operator overloading in required in JS.');
+
+var sUser1 = user1.serialize();
+var sIssue1 = issue1.serialize();
+
+console.log(sUser1);
+console.log(sIssue1);
+
+console.log(sUser1 instanceof User); //Output: false
+console.log(sUser1 instanceof Issue); //Output: false
+console.log(sIssue1 instanceof User); //Output: false
+console.log(sIssue1 instanceof Issue); //Output: false
+
+//try out with overloading
+(function (sUser1, sIssue1, User, Issue) {
+    //HURRAY!! It Works!
+    console.log(sUser1 instanceof User); //Output: true
+    console.log(sUser1 instanceof Issue); //Output: false
+    console.log(sIssue1 instanceof User); //Output: false
+    console.log(sIssue1 instanceof Issue); //Output: true
+}.enableOverloading())(sUser1, sIssue1, User, Issue);
+```
+
+###Playground###
+Just a rough playground.
+
+```javascript
+require('operator-overloading');
 
 
 //An example Constructor Class
 function Count(val) {
     var _this = this;
     this.val = val;
-    this.__plus = function (operand) {
+    this.__plus = function (leftOperand) {
         console.log("adding Count");
-        _this.val += operand.val;
+        leftOperand.val += _this.val;
+        return this;
     };
 
-    this.__doubleEqual = function (operand) {
-        console.log('double Equal Check')
-        return _this.val == operand.val;
+    this.__doubleEqual = function (leftOperand) {
+        console.log('double Equal Check');
+        return _this.val == leftOperand.val;
     };
 
-    this.__tripleEqual = function(operand) {
+    this.__tripleEqual = function (leftOperand) {
         console.log('triple Equal Check');
-        return _this.val === operand.val;
+        return _this.val === leftOperand.val;
     };
 }
 
 //We can put in Native types too
-String.prototype.__plus = function (o) {
-    return (this + " <added> " + o);
+String.prototype.__plus = function (leftOperand) {
+    return (leftOperand + " <added> " + this);
 };
 
 //Number example
-Number.prototype.__plus = function (operand) {
-    console.log('Adding:', this, '+', operand);
-    return this + operand;
+Number.prototype.__plus = function (leftOperand) {
+    console.log('Adding:', leftOperand, '+', this.valueOf());
+    return leftOperand + this;
 };
 
+var v1 = new Count(10);
+var v2 = new Count(20);
+var v3 = new Count(30);
 
-//That's how you do it
-var run = function () {
-        var v1 = new Count(10);
-        var v2 = new Count(20);
-        var v3 = new Count(30);
+//That's how you do it. Ity has its own context scope
+var run = function (v1, v2, v3) {
 
-        var res = v1 + v2 + v3;
+    var res = v1 + v2 + v3;
 
-        console.log(3 + 44 + 100);
+    console.log(3 + 44 + 100);
 
-        console.log('v1', v1);
-        console.log('v2', v2);
-        console.log('v3', v3);
-        console.log('res', res);
+    console.log('v1', v1);
+    console.log('v2', v2);
+    console.log('v3', v3);
+    console.log('res', res);
 
-        console.log(v1 == v2);
-        console.log(v1 === v2);
+    console.log(v1 == v2);
+    console.log(v1 === v2);
 
-        console.log('hello' + 'yello' + 'fellow' + 'yo!');
+    console.log('hello' + 'yello' + 'fellow' + 'yo!');
 
-        console.log(33 + (3 + 3) + 55);
+    console.log(33 + (3 + 3) + 55);
+
+    var t = 33 || 44;
+    t = 33 && 44;
+    t = 33 & 44;
+    t = 33 | 44;
+    t = 33 ^ 44;
+    t = 33 != 44;
+    t = 33 !== 44;
+    t = 33 < 44;
+    t = 33 > 44;
+    t = 33 >= 44;
+    t = 33 <= 44;
+    t = 33 in [44];
+    t = 33 instanceof Number;
+    t = 33 << 44;
+    t = 33 >> 44;
+    t = 33 >>> 44;
+    t = 33 - 44;
+    t = 33 * 44;
+    t = 33 / 44;
+    t = 33 % 44;
+    t = -44;
+    t = +44;
+    t = ~44;
+    t = ++v1;
+    t = --v1;
+    t = !v1;
+    t += v1;
+    t /= !v2;
+    t *= !v2;
+    t -= !v2;
+    t %= !v2;
+    t <<= !v2;
+    t >>= !v2;
+    t >>>= !v2;
+    t &= !v2;
+    t ^= !v2;
+    t |= !v2;
+    t = v1 + v2 * (!v1 || !v2 && 22) + 33 * 55 / ((4 | ~555) * ~~v2 * +new Date());
+    console.log(t);
 
 }.enableOverloading(); //Do this to enable operator overloading in this function. We don't recommend global enablement as that would be confusing.
 
-run();
+//This will be normal operation as defined in JS.
+console.log(3 + 44 + 100);
 
-
+run(v1, v2, v3);
 ```
+
+##Dev Tips##
+For all those who are contributing or once who wants to see debug info can run via:
+```bash
+ OVERLOAD_DEBUG=true node <program>.js
+```
+Above will print the **AST** and **transformed code**.
+
 
 ##Revision History##
 * **Version 0.1**: The first poc release overloading only +-*/ operators.

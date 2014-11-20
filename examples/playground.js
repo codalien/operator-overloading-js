@@ -94,6 +94,7 @@ var run = function (v1, v2, v3) {
     t ^= !v2;
     t |= !v2;
     t = v1 + v2 * (!v1 || !v2 && 22) + 33 * 55 / ((4 | ~555) * ~~v2 * +new Date());
+    console.log(t);
 
 }.enableOverloading(); //Do this to enable operator overloading in this function. We don't recommend global enablement as that would be confusing.
 
