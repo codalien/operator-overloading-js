@@ -63,9 +63,9 @@ Following are the operators which can be overloaded with the desired overload fu
 | 1 | + | __plus | Binary |
 | 2 | == | __doubleEqual | Binary |
 | 3 | === | __tripleEqual | Binary |
-| 4 | || | __logicalOR | Binary |
+| 4 | \|\| | __logicalOR | Binary |
 | 5 | && | __logicalAND | Binary |
-| 6 | | | __bitwiseOR | Binary |
+| 6 | \| | __bitwiseOR | Binary |
 | 7 | ^ | __bitwiseXOR | Binary |
 | 8 | & | __bitwiseAND | Binary |
 | 9 | != | __notEqual | Binary |
@@ -98,7 +98,7 @@ Following are the operators which can be overloaded with the desired overload fu
 | 36 | >>= | __rightShiftAssign | Assignment |
 | 37 | >>>= | __zeroFillRightShiftAssign | Assignment |
 | 38 | &= | __andAssign | Assignment |
-| 39 | |= | __orAssign | Assignment |
+| 39 | \|= | __orAssign | Assignment |
 | 40 | ^= | __xorAssign | Assignment |
 
 
