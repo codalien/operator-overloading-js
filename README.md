@@ -50,7 +50,7 @@ require('operator-overloading');
     console.log(group2.toString()); //Output: Kushal+Kashish+Vibhor:236
     console.log(group3.toString()); //Output: Kushal+Vibhor:146
 
-}.enableOverloading()/*Here you are enabling overloading for this context only*/)();
+}.enableOverloading()/*Here you are enabling overloading for this function scope only*/)();
 
 ```
 
@@ -103,8 +103,62 @@ Following are the operators which can be overloaded with the desired overload fu
 
 
 ##Design Consideration / Very IMP / Must Read##
-coming up...
 
+It is **very important** that we **DON'T modify the natural language**. Hence the overloading feature will only be available in the specific code blocks where you intend to use it. Also marking them will make core readable for future developers giving them hint that this block has **operator overloading enabled**.
+
+Also operator overloading ***only applies to lexical scope***, no used or inherited objects are enriched. This is important for code security and assurance of natural operation.
+
+###Definig the context for using operator-overloading##
+
+You need to specify a function and mark it such that operator overloading is enabled for code only in lexical scope of that function body.
+
+**Syntax 1: Simple declaration**
+```javascript
+var doStuff = function(){
+   //Here you can enjoy operator overloading.
+}.enableOverloading();
+//Nothing is overloaded outside the context of marked function above.
+//Run it
+doStuff();
+```
+
+**Syntax 2: Anonymous declaration**
+```javascript
+(function(){
+   //Here you can enjoy operator overloading.
+}.enableOverloading())();
+//Nothing is overloaded outside the context of marked function above.
+```
+
+**Syntax 3: Dual Flavour declaration**
+```javascript
+
+function add(a, b){
+    return a + b;
+};
+
+//Now get another function with operator overloading enabled.
+var addWithOverloadingEnabled = add.enableOverloading();
+
+//Call with native operator results (Natural)
+add(2, 2);
+
+//Call with overloaded operators
+addWithOverloadingEnabled(2, 2);
+//Another way
+add.enableOverloading()(2, 2);
+
+//Call with native operator results (Natural)
+add(2, 2); //Original method will be untouched always.
+```
+
+##Understanding restricted scope inheritance##
+It is very important that we don,t write code which could mess up natural way of happings and make things harder for debug. Hence the functions we mark with enabled operator-overloading have completely different running contexts.
+Those functions can't use variables defined outside the overloaded function such that we don't accidently do stuff to the code which is intended to be executed in the natural way.
+
+**Example**
+```javascript
+```
 
 ##Examples / Usage Guide##
 ```javascript
