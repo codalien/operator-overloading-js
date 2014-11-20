@@ -571,7 +571,7 @@ run(v1, v2, v3);
 ```
 
 ##Dev Tips##
-For all those who are contributing or once who wants to see debug info can run via:
+For all those who are contributing or ones who wants to see debug info can run via:
 ```bash
  OVERLOAD_DEBUG=true node <program>.js
 ```
