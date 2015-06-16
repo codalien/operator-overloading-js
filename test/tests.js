@@ -5,7 +5,7 @@ describe('Operator overloading Test Suite', function () {
 
     before(function (done) {
         this.timeout(10000);
-
+        
         global.assertEqual = function (a1, a2) {
             assert.equal(a2, a1);
         };
@@ -264,7 +264,7 @@ describe('Operator overloading Test Suite', function () {
             overload(function () {
                 var r = 33;
                 r += 33 + 22;
-                assertEqual(r, '33+33+22');
+                assertEqual(r, '33+22+=33');
             })();
             done();
         });
@@ -272,7 +272,7 @@ describe('Operator overloading Test Suite', function () {
             overload(function () {
                 var r = 33;
                 r -= 33 + 22;
-                assertEqual(r, '33-33+22');
+                assertEqual(r, '33+22-=33');
             })();
             done();
         });
@@ -280,7 +280,7 @@ describe('Operator overloading Test Suite', function () {
             overload(function () {
                 var r = 33;
                 r *= 33 + 22;
-                assertEqual(r, '33*33+22');
+                assertEqual(r, '33+22*=33');
             })();
             done();
         });
@@ -288,7 +288,7 @@ describe('Operator overloading Test Suite', function () {
             overload(function () {
                 var r = 33;
                 r /= 33 + 22;
-                assertEqual(r, '33/33+22');
+                assertEqual(r, '33+22/=33');
             })();
             done();
         });
@@ -296,7 +296,7 @@ describe('Operator overloading Test Suite', function () {
             overload(function () {
                 var r = 33;
                 r %= 33 + 22;
-                assertEqual(r, '33%33+22');
+                assertEqual(r, '33+22%=33');
             })();
             done();
         });
@@ -304,7 +304,7 @@ describe('Operator overloading Test Suite', function () {
             overload(function () {
                 var r = 33;
                 r <<= 33 + 22;
-                assertEqual(r, '33<<33+22');
+                assertEqual(r, '33+22<<=33');
             })();
             done();
         });
@@ -312,7 +312,7 @@ describe('Operator overloading Test Suite', function () {
             overload(function () {
                 var r = 33;
                 r >>= 33 + 22;
-                assertEqual(r, '33>>33+22');
+                assertEqual(r, '33+22>>=33');
             })();
             done();
         });
@@ -320,7 +320,7 @@ describe('Operator overloading Test Suite', function () {
             overload(function () {
                 var r = 33;
                 r >>>= 33 + 22;
-                assertEqual(r, '33>>>33+22');
+                assertEqual(r, '33+22>>>=33');
             })();
             done();
         });
@@ -328,7 +328,7 @@ describe('Operator overloading Test Suite', function () {
             overload(function () {
                 var r = 33;
                 r &= 33 + 22;
-                assertEqual(r, '33&33+22');
+                assertEqual(r, '33+22&=33');
             })();
             done();
         });
@@ -336,7 +336,7 @@ describe('Operator overloading Test Suite', function () {
             overload(function () {
                 var r = 33;
                 r |= 33 + 22;
-                assertEqual(r, '33|33+22');
+                assertEqual(r, '33+22|=33');
             })();
             done();
         });
@@ -344,7 +344,7 @@ describe('Operator overloading Test Suite', function () {
             overload(function () {
                 var r = 33;
                 r &= 33 + 22;
-                assertEqual(r, '33&33+22');
+                assertEqual(r, '33+22&=33');
             })();
             done();
         });
@@ -352,7 +352,7 @@ describe('Operator overloading Test Suite', function () {
             overload(function () {
                 var r = 33;
                 r ^= 33 + 22;
-                assertEqual(r, '33^33+22');
+                assertEqual(r, '33+22^=33');
             })();
             done();
         });
