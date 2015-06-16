@@ -148,7 +148,7 @@ var doStuff = function(){
 };
 //Nothing is overloaded outside the context of marked function above.
 //Run it
-overload(doStuff);
+overload(doStuff)();
 ```
 
 **Syntax 2: Anonymous declaration**
