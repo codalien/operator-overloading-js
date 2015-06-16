@@ -19,6 +19,7 @@
     - [Instanceof for Serialized objects](#instanceof-for-serialized-objects)
     - [Playground](#playground)
   - [Dev Tips](#dev-tips)
+  - [Backwards Compatibility](#backwards-compatibility)
   - [Revision History](#revision-history)
 
 
@@ -45,8 +46,8 @@ bower install operator-overloading --save
 ##Sneak Peak Example##
 Here is a quick sneak peak of the usage:
 ```javascript
-require('operator-overloading');
-(function () {
+var overload = require('operator-overloading');
+overload(function () {
     //A simple student constructor
     function Student(name, marks) {
         var _this = this;
@@ -76,7 +77,7 @@ require('operator-overloading');
     console.log(group2.toString()); //Output: Kushal+Kashish+Vibhor:236
     console.log(group3.toString()); //Output: Kushal+Vibhor:146
 
-}.enableOverloading()/*Here you are enabling overloading for this function scope only*/)();
+})()/*Here you are enabling overloading for this function scope only*/)();
 
 ```
 
@@ -140,31 +141,36 @@ You need to specify a function and mark it such that operator overloading is ena
 
 **Syntax 1: Simple declaration**
 ```javascript
+var overload = require('operator-overloading');
+
 var doStuff = function(){
    //Here you can enjoy operator overloading.
-}.enableOverloading();
+};
 //Nothing is overloaded outside the context of marked function above.
 //Run it
-doStuff();
+overload(doStuff);
 ```
 
 **Syntax 2: Anonymous declaration**
 ```javascript
-(function(){
+var overload = require('operator-overloading');
+
+overload(function(){
    //Here you can enjoy operator overloading.
-}.enableOverloading())();
+})();
 //Nothing is overloaded outside the context of marked function above.
 ```
 
 **Syntax 3: Dual Flavour declaration**
 ```javascript
+var overload = require('operator-overloading');
 
 function add(a, b){
     return a + b;
 };
 
 //Now get another function with operator overloading enabled.
-var addWithOverloadingEnabled = add.enableOverloading();
+var addWithOverloadingEnabled = overload(add);
 
 //Call with native operator results (Natural)
 add(2, 2);
@@ -172,7 +178,7 @@ add(2, 2);
 //Call with overloaded operators
 addWithOverloadingEnabled(2, 2);
 //Another way
-add.enableOverloading()(2, 2);
+overload(add)(2, 2);
 
 //Call with native operator results (Natural)
 add(2, 2); //Original method will be untouched always.
@@ -193,13 +199,13 @@ console.log(a); //Output: 222
 console.log(b); //Output: 333
 
 //Now this function has its own isolated execution context/scope.
-(function(){
+overload(function(){
     //You can't access the objects outside the function even in lexical scope.
     console.log(a); //Output: ERROR: a is undefined
 
     //But you can access global/window scope
     console.log(b); //Output: 333
-}.enableOverloading())();
+})();
 ```
 
 **Example: If you need to access some objects, you can do:**
@@ -209,9 +215,9 @@ var a = 222;
 console.log(a); //Output: 222
 
 //Now this function has its own isolated execution context/scope.
-(function(a){
+overload(function(a){
     console.log(a); //Output: 222
-}.enableOverloading())(a); //Pass them as arguments ;)
+})(a); //Pass them as arguments ;)
 ```
 
 
@@ -267,9 +273,9 @@ Number.prototype.__plus = function(leftValue){
 
 console.log(22 + 33); //Output: 55
 
-(function(){
+overload(function(){
     console.log(22 + 33); //Output: Adding: 22 + 33 \n 55
-}.enableOverloading())();
+})();
 
 ```
 
@@ -310,7 +316,7 @@ function MyClass(){
 
 ###Using the overloaded operators###
 
-Whatever function is transformed via `.enableOverloading()` is eligible for operator overloading.
+Whatever function is transformed via `overload` is eligible for operator overloading.
 
 ```javascript
 var a = 222;
@@ -318,9 +324,9 @@ var a = 222;
 console.log(a); //Output: 222
 
 //Now this function has its own isolated execution context/scope.
-(function(a){
+overload(function(a){
     console.log(a); //Output: 222
-}.enableOverloading())(a); //Pass them as arguments ;)
+})(a); //Pass them as arguments ;)
 ```
 
 
@@ -330,8 +336,8 @@ Some examples:
 ###Simple Student Constructor###
 The same example we have shown above.
 ```javascript
-require('operator-overloading');
-(function () {
+var overload = require('operator-overloading');
+overload(function () {
     //A simple student constructor
     function Student(name, marks) {
         var _this = this;
@@ -361,7 +367,7 @@ require('operator-overloading');
     console.log(group2.toString()); //Output: Kushal+Kashish+Vibhor:236
     console.log(group3.toString()); //Output: Kushal+Vibhor:146
 
-}.enableOverloading()/*Here you are enabling overloading for this function scope only*/)();
+})/*Here you are enabling overloading for this function scope only*/)();
 
 ```
 
@@ -370,7 +376,7 @@ require('operator-overloading');
 Just a **fun** way to pass callbacks. Just a demonstration experiment.
 
 ```javascript
-require('operator-overloading');
+var overload = require('operator-overloading');
 
 //Specify behavior for '>>'
 Function.prototype.__bitwiseRSHIFT = function (leftOperand) {
@@ -378,7 +384,7 @@ Function.prototype.__bitwiseRSHIFT = function (leftOperand) {
 };
 
 //Fun time
-(function () {
+overload(function () {
 
     function callback(data) {
         console.log('final Callback!', data);
@@ -394,14 +400,14 @@ Function.prototype.__bitwiseRSHIFT = function (leftOperand) {
     //FUN Part here!! This line is equal to fetchData(callback);
     fetchData >> callback;
 
-}.enableOverloading())();
+})();
 ```
 
 ###Instanceof for Serialized objects###
 Check if serialised object is instance of a particular constructor.
 
 ```javascript
-require('operator-overloading');
+var overload = require('operator-overloading');
 
 function User(name, age, dob, email) {
     var self = this;
@@ -451,20 +457,20 @@ console.log(sIssue1 instanceof User); //Output: false
 console.log(sIssue1 instanceof Issue); //Output: false
 
 //try out with overloading
-(function (sUser1, sIssue1, User, Issue) {
+overload(function (sUser1, sIssue1, User, Issue) {
     //HURRAY!! It Works!
     console.log(sUser1 instanceof User); //Output: true
     console.log(sUser1 instanceof Issue); //Output: false
     console.log(sIssue1 instanceof User); //Output: false
     console.log(sIssue1 instanceof Issue); //Output: true
-}.enableOverloading())(sUser1, sIssue1, User, Issue);
+})(sUser1, sIssue1, User, Issue);
 ```
 
 ###Playground###
 Just a rough playground.
 
 ```javascript
-require('operator-overloading');
+var overload = require('operator-overloading');
 
 
 //An example Constructor Class
@@ -504,7 +510,7 @@ var v2 = new Count(20);
 var v3 = new Count(30);
 
 //That's how you do it. Ity has its own context scope
-var run = function (v1, v2, v3) {
+var run = overload(function (v1, v2, v3) {
 
     var res = v1 + v2 + v3;
 
@@ -562,7 +568,7 @@ var run = function (v1, v2, v3) {
     t = v1 + v2 * (!v1 || !v2 && 22) + 33 * 55 / ((4 | ~555) * ~~v2 * +new Date());
     console.log(t);
 
-}.enableOverloading(); //Do this to enable operator overloading in this function. We don't recommend global enablement as that would be confusing.
+}); //Do this to enable operator overloading in this function. We don't recommend global enablement as that would be confusing.
 
 //This will be normal operation as defined in JS.
 console.log(3 + 44 + 100);
@@ -577,9 +583,12 @@ For all those who are contributing or ones who wants to see debug info can run v
 ```
 Above will print the **AST** and **transformed code**.
 
+##Backwards Compatibility##
+For pre 0.5 backwards compatibility do `require('operator-overloading/global')` and `enableOverloading` will work as expected, however this is **not recommended** as it pollutes a host object.
 
 ##Revision History##
 * **Version 0.1**: The first poc release overloading only +-*/ operators.
 * **Version 0.2**: Added support for all binary operators and unary operators.
 * **Version 0.3**: Updated AST Traversal to enable inline inner functions.
 * **Version 0.4**: Added support for assignment operators.
+* **Version 0.5**: Removed pollution of host object.

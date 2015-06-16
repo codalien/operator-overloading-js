@@ -1,5 +1,6 @@
 var assert = require("assert");
-
+var overload = require('../lib/overload');
+console.log('overload', overload);
 describe('Operator overloading Test Suite', function () {
 
     before(function (done) {
@@ -10,8 +11,8 @@ describe('Operator overloading Test Suite', function () {
         };
 
         //Require the overload js.
-        var functionNames = require('../lib/overload').functionNames;
-
+        var functionNames = overload.functionNames;
+        console.log('functionNames', functionNames);
         Object.keys(functionNames).forEach(function (operator) {
             Number.prototype[functionNames[operator]] = function (lval) {
                 var val = this.toString();
@@ -35,324 +36,324 @@ describe('Operator overloading Test Suite', function () {
 
     describe('Test Binary Operators', function () {
         it('should overload + operator', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual((33 + 22), '33+22');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload - operator', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual((33 - 22), '33-22');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload * operator', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual((33 * 22), '33*22');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload / operator', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual((33 / 22), '33/22');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload % operator', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual((33 % 22), '33%22');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload == operator', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual((33 == 22), '33==22');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload === operator', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual((33 === 22), '33===22');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload in operator', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual((33 in 22), '33in22');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload instanceof operator', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual((33 instanceof 22), '33instanceof22');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload || operator', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual((33 || 22), '33||22');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload && operator', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual((33 && 22), '33&&22');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload | operator', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual((33 | 22), '33|22');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload & operator', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual((33 & 22), '33&22');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload ^ operator', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual((33 ^ 22), '33^22');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload < operator', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual((33 < 22), '33<22');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload > operator', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual((33 > 22), '33>22');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload <= operator', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual((33 <= 22), '33<=22');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload >= operator', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual((33 >= 22), '33>=22');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload << operator', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual((33 << 22), '33<<22');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload >> operator', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual((33 >> 22), '33>>22');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload >>> operator', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual((33 >>> 22), '33>>>22');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload != operator', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual((33 != 22), '33!=22');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload !== operator', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual((33 !== 22), '33!==22');
-            }.enableOverloading())();
+            })();
             done();
         });
     });
 
     describe('Test Unary Operators', function () {
         it('should overload u+ operator', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual(+33, 'u+33');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload u- operator', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual(-33, 'u-33');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload ~ operator', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual(~33, '~33');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload ++ operator', function (done) {
-            (function () {
+            overload(function () {
                 var v = 33;
                 assertEqual(++v, '++33');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload ++ operator', function (done) {
-            (function () {
+            overload(function () {
                 var v = 33;
                 assertEqual(v++, '++33');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload -- operator', function (done) {
-            (function () {
+            overload(function () {
                 var v = 33;
                 assertEqual(--v, '--33');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload -- operator', function (done) {
-            (function () {
+            overload(function () {
                 var v = 33;
                 assertEqual(v--, '--33');
-            }.enableOverloading())();
+            })();
             done();
         });
 
         it('should overload ! operator', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual(!33, '!33');
-            }.enableOverloading())();
+            })();
             done();
         });
     });
 
     describe('Test Assignment Operators', function () {
         it('should overload += operator', function (done) {
-            (function () {
+            overload(function () {
                 var r = 33;
                 r += 33 + 22;
                 assertEqual(r, '33+33+22');
-            }.enableOverloading())();
+            })();
             done();
         });
         it('should overload -= operator', function (done) {
-            (function () {
+            overload(function () {
                 var r = 33;
                 r -= 33 + 22;
                 assertEqual(r, '33-33+22');
-            }.enableOverloading())();
+            })();
             done();
         });
         it('should overload *= operator', function (done) {
-            (function () {
+            overload(function () {
                 var r = 33;
                 r *= 33 + 22;
                 assertEqual(r, '33*33+22');
-            }.enableOverloading())();
+            })();
             done();
         });
         it('should overload /= operator', function (done) {
-            (function () {
+            overload(function () {
                 var r = 33;
                 r /= 33 + 22;
                 assertEqual(r, '33/33+22');
-            }.enableOverloading())();
+            })();
             done();
         });
         it('should overload %= operator', function (done) {
-            (function () {
+            overload(function () {
                 var r = 33;
                 r %= 33 + 22;
                 assertEqual(r, '33%33+22');
-            }.enableOverloading())();
+            })();
             done();
         });
         it('should overload <<= operator', function (done) {
-            (function () {
+            overload(function () {
                 var r = 33;
                 r <<= 33 + 22;
                 assertEqual(r, '33<<33+22');
-            }.enableOverloading())();
+            })();
             done();
         });
         it('should overload >>= operator', function (done) {
-            (function () {
+            overload(function () {
                 var r = 33;
                 r >>= 33 + 22;
                 assertEqual(r, '33>>33+22');
-            }.enableOverloading())();
+            })();
             done();
         });
         it('should overload >>>= operator', function (done) {
-            (function () {
+            overload(function () {
                 var r = 33;
                 r >>>= 33 + 22;
                 assertEqual(r, '33>>>33+22');
-            }.enableOverloading())();
+            })();
             done();
         });
         it('should overload &= operator', function (done) {
-            (function () {
+            overload(function () {
                 var r = 33;
                 r &= 33 + 22;
                 assertEqual(r, '33&33+22');
-            }.enableOverloading())();
+            })();
             done();
         });
         it('should overload |= operator', function (done) {
-            (function () {
+            overload(function () {
                 var r = 33;
                 r |= 33 + 22;
                 assertEqual(r, '33|33+22');
-            }.enableOverloading())();
+            })();
             done();
         });
         it('should overload &= operator', function (done) {
-            (function () {
+            overload(function () {
                 var r = 33;
                 r &= 33 + 22;
                 assertEqual(r, '33&33+22');
-            }.enableOverloading())();
+            })();
             done();
         });
         it('should overload ^= operator', function (done) {
-            (function () {
+            overload(function () {
                 var r = 33;
                 r ^= 33 + 22;
                 assertEqual(r, '33^33+22');
-            }.enableOverloading())();
+            })();
             done();
         });
     });
@@ -361,10 +362,10 @@ describe('Operator overloading Test Suite', function () {
         it('should overload only in scoped functions', function (done) {
             assertEqual(33 + 22, 55);
             assertEqual(3 * 2, 6);
-            (function () {
+            overload(function () {
                 assertEqual(33 + 22, '33+22');
                 assertEqual(3 * 2, '3*2');
-            }.enableOverloading())();
+            })();
             done();
         });
         it('should overload only in explicitly scoped functions', function (done) {
@@ -374,29 +375,29 @@ describe('Operator overloading Test Suite', function () {
                 assertEqual(33 + 22, 55);
                 assertEqual(3 * 2, 6);
             })();
-            (function () {
+            overload(function () {
                 assertEqual(33 + 22, '33+22');
                 assertEqual(3 * 2, '3*2');
-            }.enableOverloading())();
+            })();
             done();
         });
     });
 
     describe('Test Combo operators', function () {
         it('should overload complex chains', function (done) {
-            (function () {
+            overload(function () {
                 var v1 = 33, v2 = 22, d = new Date();
                 var t = v1 + v2 * (!v1 || !v2 && 22) + 33 * 55 / ((4 | ~555) * ~~v2 * +d);
                 assertEqual('33+22*!33||!22&&22+33*55/4|~555*~~22*%ts%'.replace('%ts%', +d), t);
-            }.enableOverloading())();
+            })();
             done();
         });
         it('should overload ~~ operator combo', function (done) {
-            (function () {
+            overload(function () {
                 assertEqual(~~33, '~~33');
                 assertEqual(~~~33, '~~~33');
                 assertEqual(~~~~33, '~~~~33');
-            }.enableOverloading())();
+            })();
             done();
         });
     });
@@ -404,23 +405,31 @@ describe('Operator overloading Test Suite', function () {
     describe('Test Scope inheritance', function () {
         it('should not inherit scope', function (done) {
             var a = 33;
-            (function () {
+            overload(function () {
                 assertEqual(typeof a, 'undefined');
-            }.enableOverloading())();
+            })();
             done();
         });
         it('should accept parameters', function (done) {
             var a = 33;
-            (function (a) {
+            overload(function (a) {
                 assertEqual(typeof a, 'number');
                 assertEqual(a, 33);
-            }.enableOverloading())(a);
+            })(a);
             done();
         });
     });
 
     describe('Test Code traversal in AST', function () {
 
+    });
+
+    describe('Test Global', function () {
+        require('./../global');
+        
+        it('should equal overload', function () {
+            assertEqual(Function.prototype.enableOverloading, overload);
+        });
     });
 
     after(function () {
