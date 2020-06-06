@@ -23,27 +23,27 @@
   - [Revision History](#revision-history)
 
 
-#Operator-Overloading-JS#
+# Operator-Overloading-JS
 
 This library enables simple **operator overloading** in Javascript code.
 This library has minimal runtime overheads, all overheads are done on loading time which is fair as that is done only when the system loads. Runtime performance is what is aimed for.
 We do **AST Transformations** during definition/load time to achieve the desired objective.
 
 
-##Installation##
+## Installation
 This library is available for **Node** and **Browser** both. See the installation steps below:
 
-###Node Module (NPM)##
+### Node Module (NPM)
 ```bash
 npm install operator-overloading --save
 ```
 
-###Browser (Bower)###
+### Browser (Bower)
 ```bash
 bower install operator-overloading --save
 ```
 
-##Sneak Peak Example##
+## Sneak Peak Example
 Here is a quick sneak peak of the usage:
 ```javascript
 var overload = require('operator-overloading');
@@ -81,7 +81,7 @@ overload(function () {
 
 ```
 
-##Overloadable Operators##
+## Overloadable Operators
 Following are the operators which can be overloaded with the desired overload function name:
 
 
@@ -129,13 +129,13 @@ Following are the operators which can be overloaded with the desired overload fu
 | 40 | ^= | __xorAssign | Assignment |
 
 
-##Design Consideration / Very IMP / Must Read##
+## Design Consideration / Very IMP / Must Read
 
 It is **very important** that we **DON'T modify the natural language**. Hence the overloading feature will only be available in the specific code blocks where you intend to use it. Also marking them will make core readable for future developers giving them hint that this block has **operator overloading enabled**.
 
 Also operator overloading ***only applies to lexical scope***, no used or inherited objects are enriched. This is important for code security and assurance of natural operation.
 
-###Definig the context for using operator-overloading##
+### Definig the context for using operator-overloading
 
 You need to specify a function and mark it such that operator overloading is enabled for code only in lexical scope of that function body.
 
@@ -184,7 +184,7 @@ overload(add)(2, 2);
 add(2, 2); //Original method will be untouched always.
 ```
 
-###Understanding restricted scope inheritance###
+### Understanding restricted scope inheritance
 It is very important that we don,t write code which could mess up natural way of happings and make things harder for debug. Hence the functions we mark with enabled operator-overloading have completely different running contexts.
 Those functions can't use variables defined outside the overloaded function such that we don't accidently do stuff to the code which is intended to be executed in the natural way.
 
@@ -221,7 +221,7 @@ overload(function(a){
 ```
 
 
-##Usage Guide##
+## Usage Guide
 
 There are two steps required to use operator overloading:
 1. Define overloading methods for operators intended to overload.
@@ -229,7 +229,7 @@ There are two steps required to use operator overloading:
 
 Objects should have desired methods for the operators to overload. The method you should override can be chosen from [Overloadable Operators](#overloadable-operators). For different operators its explained as follows:
 
-###Overloading binary/assignment operators###
+### Overloading binary/assignment operators
 For binary operators syntax is as follows:
 
 **NOTE:** In the overloading functions `this` is the *RightValue(rval)* and `argument (leftValue)` is the *LeftValue(lval)*. Ex: in `2 + 3`, `lval = 2` and `rval = 3`.
@@ -279,7 +279,7 @@ overload(function(){
 
 ```
 
-###Overloading unary operators###
+### Overloading unary operators
 There is no argument passed in these functions as there is no other operand. the operand the unary operator is applied is available in `this` object.
 
 ```javascript
@@ -314,7 +314,7 @@ function MyClass(){
 };
 ```
 
-###Using the overloaded operators###
+### Using the overloaded operators
 
 Whatever function is transformed via `overload` is eligible for operator overloading.
 
@@ -330,10 +330,10 @@ overload(function(a){
 ```
 
 
-##Examples##
+## Examples
 Some examples:
 
-###Simple Student Constructor###
+### Simple Student Constructor
 The same example we have shown above.
 ```javascript
 var overload = require('operator-overloading');
@@ -372,7 +372,7 @@ overload(function () {
 ```
 
 
-###Function Callback Fun###
+### Function Callback Fun
 Just a **fun** way to pass callbacks. Just a demonstration experiment.
 
 ```javascript
@@ -403,7 +403,7 @@ overload(function () {
 })();
 ```
 
-###Instanceof for Serialized objects###
+### Instanceof for Serialized objects
 Check if serialised object is instance of a particular constructor.
 
 ```javascript
@@ -466,7 +466,7 @@ overload(function (sUser1, sIssue1, User, Issue) {
 })(sUser1, sIssue1, User, Issue);
 ```
 
-###Playground###
+### Playground
 Just a rough playground.
 
 ```javascript
@@ -576,17 +576,17 @@ console.log(3 + 44 + 100);
 run(v1, v2, v3);
 ```
 
-##Dev Tips##
+## Dev Tips
 For all those who are contributing or ones who wants to see debug info can run via:
 ```bash
  OVERLOAD_DEBUG=true node <program>.js
 ```
 Above will print the **AST** and **transformed code**.
 
-##Backwards Compatibility##
+## Backwards Compatibility
 For pre 0.5 backwards compatibility do `require('operator-overloading/global')` and `enableOverloading` will work as expected, however this is **not recommended** as it pollutes a host object.
 
-##Revision History##
+## Revision History
 * **Version 0.1**: The first poc release overloading only +-*/ operators.
 * **Version 0.2**: Added support for all binary operators and unary operators.
 * **Version 0.3**: Updated AST Traversal to enable inline inner functions.
