@@ -42,6 +42,13 @@ describe('Operator overloading Test Suite', function () {
             done();
         });
 
+        it('should overload ** operator', function (done) {
+            overload(function () {
+                assertEqual((33 ** 22), '33**22');
+            })();
+            done();
+        });
+
         it('should overload - operator', function (done) {
             overload(function () {
                 assertEqual((33 - 22), '33-22');
