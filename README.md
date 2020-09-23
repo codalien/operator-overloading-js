@@ -127,6 +127,7 @@ Following are the operators which can be overloaded with the desired overload fu
 | 38 | &= | __andAssign | Assignment |
 | 39 | \|= | __orAssign | Assignment |
 | 40 | ^= | __xorAssign | Assignment |
+| 41 | `**` | __exponent | Binary |
 
 
 ##Design Consideration / Very IMP / Must Read##

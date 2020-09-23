@@ -36,6 +36,6 @@
   "homepage": "https://github.com/kushal-likhi/operator-overloading-js",
   "dependencies": {
     "escodegen": "^1.4.1",
-    "esprima": "^1.2.2"
+    "esprima": "^4.0.1"
   }
 }
