@@ -229,7 +229,7 @@ There are two steps required to use operator overloading:
 
 Objects should have desired methods for the operators to overload. The method you should override can be chosen from [Overloadable Operators](#overloadable-operators). For different operators its explained as follows:
 
-### Overloading binary/assignment operators###
+### Overloading binary/assignment operators
 For binary operators syntax is as follows:
 
 **NOTE:** In the overloading functions `this` is the *RightValue(rval)* and `argument (leftValue)` is the *LeftValue(lval)*. Ex: in `2 + 3`, `lval = 2` and `rval = 3`.
